@@ -1,0 +1,31 @@
+<html>
+    <link rel="stylesheet" type="text/css" href="stylesheets/default.css">
+<script type="text/javascript">
+    function funzioneLogin(){
+        //return location.href="https://www.facebook.com/dialog/oauth?client_id=469295763275586&redirect_uri=http://localhost:3000/welcomePage";
+        return location.href="http://localhost:3000/login";
+    }
+</script>
+<head>
+	<title> Home Page </title>
+</head>
+
+<body>
+	<div id="header">
+	<div id="logo">
+		<center><h1><a href="#">To Watch List</a></h1></center>
+		<h2></h2>
+	</div>
+    </div>
+    <br>
+    <div id="gallery">
+	<div id="top-photo">
+		<h2>&nbsp;</h2>
+	  <p><a href="#"><img src="images/cinema2.png" alt="" width="700" height="299" /></a></p>
+	</div>
+    </div>
+    <center>
+    <input type="button" class="shiny-button" value="Login with Facebook" onclick="funzioneLogin()"/>
+    </center>
+</body>
+</html>

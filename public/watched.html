@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+ 
+<head>
+	<title> TowatchList </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/default.css"-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	var stringa= "Questi sono i film:";	
+        $.get("http://localhost:3000/visti", function(res,status){				
+					var i=0;
+					var testo=JSON.parse(res);
+					while(testo.data[i]!=null){
+					stringa+=testo.data[i].data.movie.title + "\n\n";
+					i++;
+					}
+					$("p").text(stringa);					 
+      });
+});
+</script>
+
+
+
+</head>
+<body>
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Add your Movies </a></h1>
+		<h2></h2>
+	</div>
+	<div id="menu">
+		<ul>
+			<li class="classe"><a href="http://localhost:3000/welcomePage" accesskey="1" title="">Home</a></li>
+			<li class="active"><a href="http://localhost:3000/watched" accesskey="2" title="">Watched</a></li>
+			<li class="classe"><a href="http://localhost:3000/wishlist" accesskey="3" title="">Wishlist</a></li>
+			<li class="classe"><a href="http://localhost:3000/recommended" accesskey="4" title="">Recommended</a></li>
+		</ul>
+	</div>
+</div>
+
+	<center> <h2><p>Questi sono i film:	</p></h2></center>
+
+<center>
+<a href="https://towatchlist.wordpress.com/2016/04/27/privacy-policy-2/">Privacy Policy</a>
+</center>
+</body>
+</html>
+
+
