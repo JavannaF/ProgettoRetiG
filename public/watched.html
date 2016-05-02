@@ -13,15 +13,16 @@
 <script>
 
 $(document).ready(function(){
-	var stringa= "Questi sono i film:";	
+	var stringa= "Questi sono i film: <br>";	
         $.get("http://localhost:3000/visti", function(res,status){				
 					var i=0;
 					var testo=JSON.parse(res);
 					while(testo.data[i]!=null){
-					stringa+=testo.data[i].data.movie.title + "\n\n";
+					stringa+=testo.data[i].data.movie.title + "<br>";
+					
 					i++;
 					}
-					$("p").text(stringa);					 
+					$("p").html(stringa);					 
       });
 });
 </script>
