@@ -123,16 +123,17 @@ app.get('/visti', function(req,res){
 		if(testo.data[i].data!=null){
 		
 		var titolo=testo.data[i].data.movie.title;
-		//console.log("TIOTLI DA FB:"+titolo);
 		var url="http://api.themoviedb.org/3/search/movie?api_key=4b10523401b47e7acc9a274b5534d26f&query="+titolo;
 		
 		request.get(url,function(err,stat,body){
-			if(JSON.parse(body).results.length!=0){			
+			if(JSON.parse(body).results.length!=0){	
+			console.log(body);		
 			var risp=JSON.parse(body).results[0].poster_path;
+			var id=JSON.parse(body).results[0].id;
 			var rispStringa=risp;
 			var titolo=testo.data[i].data.movie.title;
-			console.log("TIOTLI DA MDB:"+titolo);
-			html+="<tr><td>"+titolo+"</td><td><img src="+url_base+rispStringa+"></img></td></tr>";
+			//console.log("TIOTLI DA MDB:"+titolo);
+			html+="<tr><td>"+titolo+"</td><td><a href=http://www.themoviedb.org/movie/"+id+"-"+titolo+"><img src="+url_base+rispStringa+"></img></a></td></tr>";
 			
 			}
 			i++;
@@ -140,7 +141,6 @@ app.get('/visti', function(req,res){
 			});//get url
 		}
 			},function(err,n){		html+="</table>";
-									console.log("NOSTRO JSON:"+html);
 									res.send(html);
 									console.log("dati inviati\n");
 									}
