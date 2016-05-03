@@ -16,7 +16,7 @@ $(document).ready(function(){
 	var stringa= "Questi sono i film: <br>";
 
 
-        $.getJSON("http://localhost:3000/visti", function(res,status){				
+        $.get("http://localhost:3000/visti", function(res,status){				
 					/*var i=0;
 					var testo=JSON.parse(res);
 					while(testo.data[i]!=null){
@@ -31,7 +31,8 @@ $(document).ready(function(){
 					i++;						
 					}				
 					*/
-					stringa+=JSON.parse(res);			
+					
+					stringa+=res;			
 					$("#scritte").html(stringa);		 
       });
 		

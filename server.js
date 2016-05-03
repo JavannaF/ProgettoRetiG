@@ -114,8 +114,8 @@ app.get('/visti', function(req,res){
 	var testo=JSON.parse(provetta);
 	console.log("almeno\n");
 	var i=0;
-	var jsona="{[";
-	console.log("QUESTO"+testo.data.length);
+	var html="<table>";
+	//console.log("QUESTO"+testo.data.length);
 	async.whilst(
 	function(){return i<testo.data.length;},
 	function(next){
@@ -129,27 +129,23 @@ app.get('/visti', function(req,res){
 		request.get(url,function(err,stat,body){
 			if(JSON.parse(body).results.length!=0){			
 			var risp=JSON.parse(body).results[0].poster_path;
-			
-			var rispStringa=JSON.stringify(risp);
-						//console.log(rispStringa+"RISPSTRING");
+			var rispStringa=risp;
 			var titolo=testo.data[i].data.movie.title;
 			console.log("TIOTLI DA MDB:"+titolo);
-			jsona+="{titolo:"+titolo+", path: "+url_base+rispStringa+"}";
+			html+="<tr><td>"+titolo+"</td><td><img src="+url_base+rispStringa+"></img></td></tr>";
 			
 			}
 			i++;
-			next(null,i);}
+			next(null,i);
+			});//get url
 		}
-			},function(err,n){		jsona+="]}";
-									console.log("NOSTRO JSON:"+jsona);
-									res.send(jsona);
+			},function(err,n){		html+="</table>";
+									console.log("NOSTRO JSON:"+html);
+									res.send(html);
+									console.log("dati inviati\n");
 									}
 					
-		});
-;})
-		
-	//res.send(provetta);	
-	console.log("dati inviati\n");
+		);//chiude il whilst
 	});
  
 
