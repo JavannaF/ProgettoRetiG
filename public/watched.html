@@ -13,17 +13,28 @@
 <script>
 
 $(document).ready(function(){
-	var stringa= "Questi sono i film: <br>";	
-        $.get("http://localhost:3000/visti", function(res,status){				
-					var i=0;
+	var stringa= "Questi sono i film: <br>";
+
+
+        $.getJSON("http://localhost:3000/visti", function(res,status){				
+					/*var i=0;
 					var testo=JSON.parse(res);
 					while(testo.data[i]!=null){
-					stringa+=testo.data[i].data.movie.title + "<br>";
-					
-					i++;
-					}
-					$("p").html(stringa);					 
+					var tmp=testo.data[i].data.movie.title;
+					stringa+="<p>"+ tmp+ "<br></p>";						
+					var url="http://api.themoviedb.org/3/search/movie?api_key=4b10523401b47e7acc9a274b5534d26f&query="+tmp;	
+					$.get(url,function(body,status){
+						stringa+="";
+						var risp=body.results[0].poster_path;
+						stringa+="<img src="+url_base+risp+"></img>";
+					});						
+					i++;						
+					}				
+					*/
+					stringa+=JSON.parse(res);			
+					$("#scritte").html(stringa);		 
       });
+		
 });
 </script>
 
@@ -46,8 +57,10 @@ $(document).ready(function(){
 	</div>
 </div>
 
-	<center> <h2><p>Questi sono i film:	</p></h2></center>
+	<center> <h2><div id=scritte>Questi sono i film:	<br></div></h2></center>
 
+<!--img src="http://image.tmdb.org/t/p/w92/re6AOJbhBk9FIK3knwU6rYlbPDx.jpg" text=Tangled></img-->
+<!--p id=ciao>Prova</p-->
 <center>
 <a href="https://towatchlist.wordpress.com/2016/04/27/privacy-policy-2/">Privacy Policy</a>
 </center>

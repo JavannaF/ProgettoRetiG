@@ -2,6 +2,7 @@
 var express = require('express');
 var request = require('request');
 var session = require('express-session');
+var async = require('async');
 var mdb = require('moviedb')('4b10523401b47e7acc9a274b5534d26f');
 
 var app = express();
@@ -23,6 +24,11 @@ app.use(express.static(PATH+'/public/stylesheets'));
 //variabile globale per la sessione
 var sessione;
 var provetta;
+/*
+var url_base;//url base per le immagini
+request.get("http://api.themoviedb.org/3/configuration?api_key=4b10523401b47e7acc9a274b5534d26f", function(error, status, data){
+		url_base= JSON.parse(data).images.base_url;
+		});*/
 
 //get sulla root, rispondo con la pagina html che contiene il bottone di login
 app.get('/', function (req, res) {
@@ -101,11 +107,52 @@ app.get('/recommended', function(req,res){
   });
   
 app.get('/visti', function(req,res){
+	var url_base;//url base per le immagini
+	request.get("http://api.themoviedb.org/3/configuration?api_key=4b10523401b47e7acc9a274b5534d26f", function(error,status,data){
+		url_base= JSON.parse(data).images.base_url+"w92";
+		});	
+	var testo=JSON.parse(provetta);
 	console.log("almeno\n");
-	res.send(provetta);	
+	var i=0;
+	var jsona="{[";
+	console.log("QUESTO"+testo.data.length);
+	async.whilst(
+	function(){return i<testo.data.length;},
+	function(next){
+		
+		if(testo.data[i].data!=null){
+		
+		var titolo=testo.data[i].data.movie.title;
+		//console.log("TIOTLI DA FB:"+titolo);
+		var url="http://api.themoviedb.org/3/search/movie?api_key=4b10523401b47e7acc9a274b5534d26f&query="+titolo;
+		
+		request.get(url,function(err,stat,body){
+			if(JSON.parse(body).results.length!=0){			
+			var risp=JSON.parse(body).results[0].poster_path;
+			
+			var rispStringa=JSON.stringify(risp);
+						//console.log(rispStringa+"RISPSTRING");
+			var titolo=testo.data[i].data.movie.title;
+			console.log("TIOTLI DA MDB:"+titolo);
+			jsona+="{titolo:"+titolo+", path: "+url_base+rispStringa+"}";
+			
+			}
+			i++;
+			next(null,i);}
+		}
+			},function(err,n){		jsona+="]}";
+									console.log("NOSTRO JSON:"+jsona);
+									res.send(jsona);
+									}
+					
+		});
+;})
+		
+	//res.send(provetta);	
 	console.log("dati inviati\n");
 	});
-  
+ 
+
 
 app.get('/logout', function(req, res){      
      request.del("https://graph.facebook.com/me/permissions?access_token="+sessione.access_token ,function(error,response,body){
@@ -130,5 +177,7 @@ app.listen(3000, function () {
   console.log('In ascolto sulla porta 3000!');
 });
 
-//var testo= JSON.parse(provetta);
+
+
+
 
